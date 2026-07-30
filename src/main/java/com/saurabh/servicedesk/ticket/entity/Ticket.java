@@ -30,7 +30,9 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
-    private Long assignedEngineerId;
+    private String assigned_engineer_id;
+    private String assigned_engineer_name;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
