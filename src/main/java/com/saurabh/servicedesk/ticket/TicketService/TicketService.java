@@ -21,6 +21,12 @@ public class TicketService {
     public CreateTicketResponse createTicket(CreateTicketRequest request){
         Ticket ticket = new Ticket();
 
+        ticket.setName(request.getName());
+        ticket.setEmail(request.getEmail());
+        ticket.setTitle(request.getTitle());
+        ticket.setDescription(request.getDescription());
+        ticket.setPriority(request.getPriority());
+
         ticket.setStatus(TicketStatus.OPEN);
         ticket.setPublicToken(UUID.randomUUID().toString());
         ticket.setCreatedAt(LocalDateTime.now());
