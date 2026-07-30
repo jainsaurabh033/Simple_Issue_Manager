@@ -44,7 +44,6 @@ public class TicketService {
         response.setTrackingLink("http://localhost:3000/ticket/" + ticket.getPublicToken());
 
         response.setMessage("Ticket created Successfully");
-
         return response;
     }
 }
