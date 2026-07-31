@@ -4,6 +4,7 @@ import com.saurabh.servicedesk.ticket.TicketService.TicketService;
 import com.saurabh.servicedesk.ticket.dto.AssignTicketRequest;
 import com.saurabh.servicedesk.ticket.dto.CreateTicketRequest;
 import com.saurabh.servicedesk.ticket.dto.CreateTicketResponse;
+import com.saurabh.servicedesk.ticket.dto.TrackTicketResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,11 @@ public class TicketController {
     @PutMapping("/{ticketId}/assign")
     public String assignTicket(@PathVariable Long ticketId, @RequestBody AssignTicketRequest request){
         ticketService.assignTicket(ticketId, request);
-
         return "Ticket assigned successfully";
+    }
+
+    @GetMapping("/track/{publicToken}")
+    public TrackTicketResponse trackTicket(@PathVariable String publicToken){
+        return ticketService.trackTicket(publicToken);
     }
 }

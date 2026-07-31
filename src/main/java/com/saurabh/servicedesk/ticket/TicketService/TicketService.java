@@ -6,6 +6,7 @@ import com.saurabh.servicedesk.ticket.Repository.TicketRepository;
 import com.saurabh.servicedesk.ticket.dto.AssignTicketRequest;
 import com.saurabh.servicedesk.ticket.dto.CreateTicketRequest;
 import com.saurabh.servicedesk.ticket.dto.CreateTicketResponse;
+import com.saurabh.servicedesk.ticket.dto.TrackTicketResponse;
 import com.saurabh.servicedesk.ticket.entity.Ticket;
 import com.saurabh.servicedesk.ticket.enums.TicketStatus;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,20 @@ public class TicketService {
         ticket.setStatus(TicketStatus.IN_PROGRESS);
 
         ticketRepository.save(ticket);
+    }
+
+    public TrackTicketResponse trackTicket(String publicToken){
+        Ticket ticket = ticketRepository.findByPublicToken(publicToken)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        TrackTicketResponse response = new TrackTicketResponse();
+
+        response.setTitle(ticket.getTitle());
+        response.setDescription(ticket.getDescription());
+        response.setPriority(ticket.getPriority());
+        response.setStatus(ticket.getStatus());
+        response.setAssignedEngineerName(ticket.getAssigned_engineer_name());
+
+        return response;
     }
 }
