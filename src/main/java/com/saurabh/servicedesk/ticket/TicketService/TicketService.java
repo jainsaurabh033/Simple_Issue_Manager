@@ -3,10 +3,7 @@ package com.saurabh.servicedesk.ticket.TicketService;
 import com.saurabh.servicedesk.engineer.entity.SupportEngineer;
 import com.saurabh.servicedesk.engineer.repository.SupportEngineerRepository;
 import com.saurabh.servicedesk.ticket.Repository.TicketRepository;
-import com.saurabh.servicedesk.ticket.dto.AssignTicketRequest;
-import com.saurabh.servicedesk.ticket.dto.CreateTicketRequest;
-import com.saurabh.servicedesk.ticket.dto.CreateTicketResponse;
-import com.saurabh.servicedesk.ticket.dto.TrackTicketResponse;
+import com.saurabh.servicedesk.ticket.dto.*;
 import com.saurabh.servicedesk.ticket.entity.Ticket;
 import com.saurabh.servicedesk.ticket.enums.TicketStatus;
 import org.springframework.stereotype.Service;
@@ -78,6 +75,20 @@ public class TicketService {
         response.setPriority(ticket.getPriority());
         response.setStatus(ticket.getStatus());
         response.setAssignedEngineerName(ticket.getAssigned_engineer_name());
+
+        return response;
+    }
+
+    public UpdateTicketStatusResponse updateTicketStatus(Long ticketId, UpdateTicketStatusRequest request){
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        ticket.setStatus(request.getStatus());
+
+        ticketRepository.save(ticket);
+
+        UpdateTicketStatusResponse response = new UpdateTicketStatusResponse();
+        response.setMessage("Ticket status updated successfully");
 
         return response;
     }

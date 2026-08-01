@@ -1,10 +1,7 @@
 package com.saurabh.servicedesk.ticket.controller;
 
 import com.saurabh.servicedesk.ticket.TicketService.TicketService;
-import com.saurabh.servicedesk.ticket.dto.AssignTicketRequest;
-import com.saurabh.servicedesk.ticket.dto.CreateTicketRequest;
-import com.saurabh.servicedesk.ticket.dto.CreateTicketResponse;
-import com.saurabh.servicedesk.ticket.dto.TrackTicketResponse;
+import com.saurabh.servicedesk.ticket.dto.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,5 +28,10 @@ public class TicketController {
     @GetMapping("/track/{publicToken}")
     public TrackTicketResponse trackTicket(@PathVariable String publicToken){
         return ticketService.trackTicket(publicToken);
+    }
+
+    @PutMapping("/{ticketId}/status")
+    public UpdateTicketStatusResponse updateTicketStatus(@PathVariable Long ticketId, @RequestBody UpdateTicketStatusRequest request){
+        return ticketService.updateTicketStatus(ticketId, request);
     }
 }
