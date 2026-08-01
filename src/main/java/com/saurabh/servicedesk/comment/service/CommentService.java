@@ -9,6 +9,8 @@ import com.saurabh.servicedesk.ticket.entity.Ticket;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -38,6 +40,27 @@ public class CommentService {
         response.setAuthor(comment.getAuthor());
         response.setMessage(comment.getMessage());
         response.setCreatedAt(comment.getCreatedAt());
+
+        return response;
+    }
+
+    public List<CommentResponse> getComments(Long ticketId){
+        ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        List<Comment> comments = commentRepository.findByTicketIdOrderByCreatedAtAsc(ticketId);
+
+        List<CommentResponse> response = new ArrayList<>();
+
+        for(Comment comment : comments){
+            CommentResponse commentResponse = new CommentResponse();
+
+            commentResponse.setAuthor(comment.getAuthor());
+            commentResponse.setMessage(comment.getMessage());
+            commentResponse.setCreatedAt(comment.getCreatedAt());
+
+            response.add(commentResponse);
+        }
 
         return response;
     }
